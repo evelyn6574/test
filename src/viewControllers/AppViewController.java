@@ -72,7 +72,8 @@ public class AppViewController extends JFrame implements Observer, ActionListene
 		this.setLocationByPlatform(true);
 		// this methods asks the window manager to position the frame in the
 		// centre of the screen
-		this.setLocationRelativeTo(null);
+		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+		this.setLocation(dim.width / 2 - this.getSize().width / 4*3, dim.height / 2 - this.getSize().height / 4*3);
 
 		// Here we set up the GUI. Initialize all the panels.
 		infoPanel = new JPanel();
@@ -146,7 +147,7 @@ public class AppViewController extends JFrame implements Observer, ActionListene
 		// find the dimensions of the screen and a dimension that is derive one
 		// half of the size
 		Dimension thisScreen = Toolkit.getDefaultToolkit().getScreenSize();
-		Dimension targetSize = new Dimension((int) thisScreen.getWidth() / 2, (int) thisScreen.getHeight() / 2);
+		Dimension targetSize = new Dimension((int) thisScreen.getWidth() / 4*3, (int) thisScreen.getHeight() / 4*3);
 		return targetSize;
 	}
 
