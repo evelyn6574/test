@@ -6,16 +6,21 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
+import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -45,6 +50,7 @@ public class AppViewController extends JFrame implements Observer, ActionListene
 	private Model theModel;
 
 	// Initial Components
+	private JPanel backgroundPanel;
 	private JPanel infoPanel;
 	private JPanel buttonPanel;
 	private JPanel leftEmptyPanel, middlePanel, rightEmptyPanel, bottomEmptyPanel;
@@ -54,6 +60,8 @@ public class AppViewController extends JFrame implements Observer, ActionListene
 	private JButton startButton;
 	private JButton restartButton;
 	private List<JButton> buttonList;
+	
+	private static final String BACKGROUND_IMAGE_PATH = "background_image.png";
 
 	/**
 	 * Creates the view-controller delegate
@@ -74,8 +82,24 @@ public class AppViewController extends JFrame implements Observer, ActionListene
 		// centre of the screen
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
 		this.setLocation(dim.width / 2 - this.getSize().width / 4*3, dim.height / 2 - this.getSize().height / 4*3);
+		this.setResizable(false);
 
 		// Here we set up the GUI. Initialize all the panels.
+		backgroundPanel = new JPanel() {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			protected void paintComponent(Graphics g) {
+				super.paintComponent(g);
+			    try {
+					File pathToFile = new File("background_image.png");
+					Image bgImage = ImageIO.read(pathToFile);
+					g.drawImage(bgImage, 0, 0, null);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		};
 		infoPanel = new JPanel();
 		buttonPanel = new JPanel();
 		leftEmptyPanel = new JPanel();
@@ -124,9 +148,10 @@ public class AppViewController extends JFrame implements Observer, ActionListene
 		middlePanel.add(bottomEmptyPanel, BorderLayout.PAGE_END);
 
 		// Add three main panels on content pane with positions
-		this.getContentPane().add(leftEmptyPanel, BorderLayout.WEST);
+		/*this.getContentPane().add(leftEmptyPanel, BorderLayout.WEST);
 		this.getContentPane().add(rightEmptyPanel, BorderLayout.EAST);
-		this.getContentPane().add(middlePanel, BorderLayout.CENTER);
+		this.getContentPane().add(middlePanel, BorderLayout.CENTER);*/
+		this.getContentPane().add(backgroundPanel, BorderLayout.CENTER);
 
 		// here we install this object (ActionListener) on the button so that we
 		// may detect user actions that may be dispatched from it.
