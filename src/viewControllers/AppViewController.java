@@ -179,7 +179,11 @@ public class AppViewController extends JFrame implements Observer, ActionListene
 	
 	private class welcomePanelListener extends MouseAdapter {
 		public void mouseClicked(MouseEvent e) {
-			System.out.println("Click anywhere to start!");
+			//Initial theModel 
+			theModel.setState(Model.INIT_STATE);
+			
+			//System.out.println(e.getSource());
+			//System.out.println("Click anywhere to start!");
 		}
 	}
 
@@ -205,7 +209,8 @@ public class AppViewController extends JFrame implements Observer, ActionListene
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		
+		System.out.println("test");
+		//System.out.println(e.getActionCommand());
 	}
 	
 	/**
