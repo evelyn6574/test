@@ -26,19 +26,17 @@ public class Model extends Observable {
 
 	public static final int STATE_UNASSIGNED = -1;
 	public static final int INIT_STATE = 0;
-	public static final int QUESTION_STATE = 1;
-	public static final int COLOR_QUESTION_STATE = 2;
-	public static final int END_STATE = 3;
+	//public static final int QUESTION_STATE = 1;
+	//public static final int COLOR_QUESTION_STATE = 2;
+	//public static final int END_STATE = 3;
 
-	private PrintStream myOut = System.out;
+	private PrintStream output = System.out;
 
 	private int currentState;
 	
-	private String welcomeMsgHTML = "<html><div style=\"text-align:center\">" + "<br><h1>WELCOME</h1>to the"
-			+ "<h1 style=\"color:red;\">Color Game</h1><br>"
-			+ "<h3>>&nbsp;Choose the color of provided items&nbsp;&lt;</h3><br>" + "</div></html>";
-	private String initMsg = "Choose the color of provided items";
-	private String endMsg = "Congras! You just completed!";
+	private String welcomeMsg = "<b>Uncle Tetsu Reservation</b><br><br>Touch anywhere to start";
+	//private String initMsg = "Choose the color of provided items";
+	//private String endMsg = "Congras! You just completed!";
 	
 	/**
 	 * Create an instance of this model. The question list for color game will
@@ -57,7 +55,7 @@ public class Model extends Observable {
 	private void modelNotify(Object o) {
 		// print something to the console, for the sake of tracing program
 		// control flow
-		// myOut.println("Change happened to the data model");
+		// output.println("Change happened to the data model");
 		// indicate that the state of this Observable has changed
 		setChanged();
 		// System.out.println(hasChanged());
@@ -95,25 +93,28 @@ public class Model extends Observable {
 	 * @return the welcome message
 	 */
 	public String getWelcomeMsg() {
-		return welcomeMsgHTML;
+		return welcomeMsg;
 	}
-
+	
+	
 	/**
 	 * Return the initialization message
 	 * 
 	 * @return the initialization message associated with the INIT_STATE of this
 	 *         model.
-	 */
+	 *
 	public String getInitMsg() {
 		return initMsg;
 	}
-
+	*/
+	
 	/**
 	 * Return the finish message
 	 * 
 	 * @return the finish message associated with the END_STATE of this model.
-	 */
+	 *
 	public String getEndMsg() {
 		return endMsg;
 	}
+	*/
 }
