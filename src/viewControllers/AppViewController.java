@@ -179,8 +179,12 @@ public class AppViewController extends JFrame implements Observer, ActionListene
 	
 	private class welcomePanelListener extends MouseAdapter {
 		public void mouseClicked(MouseEvent e) {
-			//Initial theModel 
-			theModel.setState(Model.INIT_STATE);
+			//if the current state is STATE_UNASSIGNED, then set the model to Initial theModel 
+			//System.out.println(theModel.getCurrentState());
+			if(theModel.getCurrentState() == -1) {
+				theModel.setState(Model.INIT_STATE);
+			}
+			
 			
 			//System.out.println(e.getSource());
 			//System.out.println("Click anywhere to start!");
