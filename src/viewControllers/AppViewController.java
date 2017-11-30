@@ -12,6 +12,8 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
@@ -165,10 +167,28 @@ public class AppViewController extends JFrame implements Observer, ActionListene
 
 		// this method asks the frame layout manager to size the frame so that
 		// all its contents are at or above their preferred sizes
+		
+		//add MouseLitsener
+		backgroundPanel.addMouseListener(new welcomePanelListener());
+		
 		this.pack();
 		// make this component visible (do not assume that it will be visible by
 		// default)
 		this.setVisible(true);
+	}
+	
+	private class welcomePanelListener extends MouseAdapter {
+		public void mouseClicked(MouseEvent e) {
+			//if the current state is STATE_UNASSIGNED, then set the model to Initial theModel 
+			//System.out.println(theModel.getCurrentState());
+			if(theModel.getCurrentState() == -1) {
+				theModel.setState(Model.INIT_STATE);
+			}
+			
+			
+			//System.out.println(e.getSource());
+			//System.out.println("Click anywhere to start!");
+		}
 	}
 
 	@Override
@@ -193,7 +213,8 @@ public class AppViewController extends JFrame implements Observer, ActionListene
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		
+		System.out.println("test");
+		//System.out.println(e.getActionCommand());
 	}
 	
 	/**
