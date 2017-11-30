@@ -21,11 +21,13 @@ import java.util.Observable;
 import java.util.Observer;
 
 import javax.imageio.ImageIO;
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+import javax.swing.border.Border;
 
 /**
  * This class encapsulates a GUI, a component of which is a view-controller
@@ -97,39 +99,44 @@ public class AppViewController extends JFrame implements Observer, ActionListene
 			    try {
 					File pathToFile = new File(AppViewController.BACKGROUND_IMAGE_PATH);
 					Image bgImage = ImageIO.read(pathToFile);
-					g.drawImage(bgImage, 0, 0, null);
+					Image resizebgImage = bgImage.getScaledInstance(this.getWidth(), this.getHeight(), Image.SCALE_SMOOTH);
+					g.drawImage(resizebgImage, 0, 0, null);
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
 			}
 		};
 		leftPanel = new JPanel();
-		rightPanel = new JPanel();
 		middlePanel = new JPanel();
+		rightPanel = new JPanel();
 		titlePanel = new JPanel();
 		contentPanel = new JPanel();
 		pageIndexPanel = new JPanel();
 		
 		// Set all panels' background color to white
+		/*leftPanel.setBackground(Color.WHITE);
+		middlePanel.setBackground(Color.WHITE);
+		rightPanel.setBackground(Color.WHITE);
 		titlePanel.setBackground(Color.WHITE);
 		contentPanel.setBackground(Color.WHITE);
-		leftPanel.setBackground(Color.WHITE);
-		rightPanel.setBackground(Color.WHITE);
-		middlePanel.setBackground(Color.WHITE);
 		pageIndexPanel.setBackground(Color.WHITE);
-		this.getContentPane().setBackground(Color.WHITE);
+		this.getContentPane().setBackground(Color.WHITE);*/
+		leftPanel.setOpaque(false);
+		rightPanel.setOpaque(false);
 		
 		// Set layout for those panels that will contain other components.
+		middlePanel.setLayout(new BorderLayout());
 		titlePanel.setLayout(new BorderLayout());
 		contentPanel.setLayout(new BorderLayout());
-		middlePanel.setLayout(new BorderLayout());
+		backgroundPanel.setLayout(new BorderLayout());
 		pageIndexPanel.setLayout(new BorderLayout());
 		this.getContentPane().setLayout(new BorderLayout());
+		
 		// Set panels' preferred sizes to make GUI looks nice.
+		leftPanel.setPreferredSize(new Dimension(150, 384));
+		rightPanel.setPreferredSize(new Dimension(150, 384));
 		titlePanel.setPreferredSize(new Dimension(500, 265));
 		contentPanel.setPreferredSize(new Dimension(580, 100));
-		leftPanel.setPreferredSize(new Dimension(50, 384));
-		rightPanel.setPreferredSize(new Dimension(50, 384));
 		pageIndexPanel.setPreferredSize(new Dimension(580, 30));
 
 		// Initialize titleLabel component
@@ -144,6 +151,9 @@ public class AppViewController extends JFrame implements Observer, ActionListene
 		middlePanel.add(titlePanel, BorderLayout.NORTH);
 		middlePanel.add(contentPanel, BorderLayout.CENTER);
 		middlePanel.add(pageIndexPanel, BorderLayout.PAGE_END);
+		
+		backgroundPanel.add(leftPanel, BorderLayout.WEST);
+		backgroundPanel.add(rightPanel, BorderLayout.EAST);
 
 		// Add three main panels on content pane with positions
 		/*this.getContentPane().add(leftPanel, BorderLayout.WEST);
