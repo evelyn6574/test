@@ -139,13 +139,6 @@ public class AppViewController extends JFrame implements Observer, ActionListene
 		titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		// Add titleLabel on titlePanel with position.
 		titlePanel.add(titleLabel, BorderLayout.CENTER);
-
-		// Initialize startButton component
-		startButton = new JButton("Start");
-		startButton.setEnabled(true);
-		startButton.setPreferredSize(new Dimension(200, 100));
-		// Add startButton on contentPanel with position
-		contentPanel.add(startButton, BorderLayout.CENTER);
 		
 		// Add three panels on middlePanel with positions
 		middlePanel.add(titlePanel, BorderLayout.NORTH);
@@ -157,10 +150,6 @@ public class AppViewController extends JFrame implements Observer, ActionListene
 		this.getContentPane().add(rightPanel, BorderLayout.EAST);
 		this.getContentPane().add(middlePanel, BorderLayout.CENTER);*/
 		this.getContentPane().add(backgroundPanel, BorderLayout.CENTER);
-
-		// here we install this object (ActionListener) on the button so that we
-		// may detect user actions that may be dispatched from it.
-		startButton.addActionListener(this);
 
 		this.setVisible(true);
 
