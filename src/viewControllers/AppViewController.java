@@ -44,7 +44,7 @@ public class AppViewController extends JFrame implements Observer, ActionListene
 
 	private static final long serialVersionUID = 2L; // needed by serializers
 
-	private PrintStream myOut = System.out;
+	private PrintStream output = System.out;
 
 	// Make recode of Model
 	private Model theModel;
@@ -172,7 +172,13 @@ public class AppViewController extends JFrame implements Observer, ActionListene
 
 	@Override
 	public void update(Observable o, Object arg) {
+		if(theModel.getCurrentState() == theModel.STATE_UNASSIGNED) {
+			
+		}
 		
+		if(theModel.getCurrentState() == theModel.INIT_STATE) {
+			
+		}
 	}
 
 	@Override
