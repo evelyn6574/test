@@ -19,6 +19,8 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -71,6 +73,7 @@ public class AppViewController extends JFrame implements Observer, ActionListene
 	// JButton
 	private JButton nextPageButton;
 	private JButton lastPageButton;
+	private List<JButton> timeButtonList;
 	
 	// JFont
 	private static final String GILL_SANS_ULTRA_BOLD_FONT = "Gill Sans Ultra Bold";
@@ -90,6 +93,8 @@ public class AppViewController extends JFrame implements Observer, ActionListene
 	private static final String EMPTY_BUTTON_IMAGE_PATH = "empty_button_image.png";
 	private static final String LAST_PAGE_BUTTON_IMAGE_PATH = "last_page_button_image.png";
 	private static final String NEXT_PAGE_BUTTON_IMAGE_PATH = "next_page_button_image.png";
+	private static final String LAST_PAGE_BUTTON_PRESSED_IMAGE_PATH = "last_page_button_pressed_image.png";
+	private static final String NEXT_PAGE_BUTTON_PRESSED_IMAGE_PATH = "next_page_button_pressed_image.png";
 	private static final String PAGE_INDEX_1_IMAGE = "page_index_1_image.png";
 
 	/**
@@ -105,8 +110,7 @@ public class AppViewController extends JFrame implements Observer, ActionListene
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		Dimension thisScreen = Toolkit.getDefaultToolkit().getScreenSize();
 		this.setSize((int) thisScreen.getWidth() / 2, (int) thisScreen.getHeight() / 2);
-		// Yi: more work needed here, app title text should be stored in Model.java
-		this.setTitle(theModel.getAppTitle());
+		this.setTitle(theModel.getWindowTitle());
 		this.setLocationByPlatform(true);
 		// Center window in the screen
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
@@ -167,7 +171,7 @@ public class AppViewController extends JFrame implements Observer, ActionListene
 		
 		// Set panels' preferred sizes to make GUI looks nice.
 		leftPanel.setPreferredSize(new Dimension(150, 384));
-		rightPanel.setPreferredSize(new Dimension(160, 384));
+		rightPanel.setPreferredSize(new Dimension(150, 384));
 		titlePanel.setPreferredSize(new Dimension(500, 150));
 		contentPanel.setPreferredSize(new Dimension(580, 100));
 		pageIndexPanel.setPreferredSize(new Dimension(580, 30));
@@ -176,8 +180,7 @@ public class AppViewController extends JFrame implements Observer, ActionListene
 		titleLabel = new JLabel();
 		titleLabel.setFont(new Font(AppViewController.GILL_SANS_ULTRA_BOLD_FONT, Font.BOLD, 60));
 		titleLabel.setForeground(new Color(AppViewController.APP_TITLE_LABEL_COLOR));
-		// Yi: more work needed here, html text should be stored in Model.java
-		titleLabel.setText(theModel.getWelcomeMsg());
+		titleLabel.setText(theModel.getAppTitle());
 		titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		titleLabel.setOpaque(false);
 		
@@ -185,8 +188,7 @@ public class AppViewController extends JFrame implements Observer, ActionListene
 		subtitleLabel = new JLabel();
 		subtitleLabel.setFont(new Font(AppViewController.CALIBRI_FONT, Font.PLAIN, 24));
 		subtitleLabel.setForeground(new Color(AppViewController.SUBTITLE_LABEL_COLOR));
-		// Yi: more work needed here, html text should be stored in Model.java
-		subtitleLabel.setText(theModel.getTouchToStart());
+		subtitleLabel.setText(theModel.getSubtitle());
 		subtitleLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		subtitleLabel.setOpaque(false);
 		
@@ -194,8 +196,7 @@ public class AppViewController extends JFrame implements Observer, ActionListene
 		storeInfoLabel = new JLabel();
 		storeInfoLabel.setFont(new Font(AppViewController.HELVETICA_NEUE_FONT, Font.PLAIN, 14));
 		storeInfoLabel.setForeground(new Color(AppViewController.STORE_INFO_LABEL_COLOR));
-		// Yi: more work needed here, html text should be stored in Model.java
-		storeInfoLabel.setText(theModel.getAddressTime());
+		storeInfoLabel.setText(theModel.getStoreInfo());
 		storeInfoLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		storeInfoLabel.setOpaque(false);
 		
@@ -303,7 +304,6 @@ public class AppViewController extends JFrame implements Observer, ActionListene
 		// Modify titleLabel component
 		titleLabel.setFont(new Font(AppViewController.GILL_SANS_MT_FONT, Font.BOLD, 48));
 		titleLabel.setForeground(new Color(AppViewController.PAGE_TITLE_LABEL_COLOR));
-		// Yi: more work needed here, html text should be stored in Model.java
 		System.out.println(theModel.getCurrentState());
 		titleLabel.setText(theModel.getPageTitle());
 		titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -313,6 +313,18 @@ public class AppViewController extends JFrame implements Observer, ActionListene
 		titlePanel.add(titleLabel, BorderLayout.CENTER);
 		
 		// Part 2: contentPanel
+		// Initialize all 27 buttons
+		timeButtonList = new ArrayList<JButton>();
+		String[] pickupTimeArray = theModel.getPickupTimeArray();
+		for (int i = 0; i < 27; i++) {
+			JButton button = new JButton();
+			timeButtonList.add(button);
+			contentPanel.add(button);
+			button.setEnabled(true);
+			button.setText(pickupTimeArray[i]);
+			button.setFont(new Font(AppViewController.CALIBRI_FONT, Font.PLAIN, 18));
+			button.setBackground(new Color(AppViewController.BACKGROUND_COLOR));
+		}
 		
 		// Part 3: pageIndexpanel
 		// Initialize last and next buttons
@@ -321,7 +333,7 @@ public class AppViewController extends JFrame implements Observer, ActionListene
 		BufferedImage lastPageImg = null;
 		BufferedImage nextPageImg = null;
 		try {
-			lastPageImg = ImageIO.read(new File(AppViewController.LAST_PAGE_BUTTON_IMAGE_PATH));
+			lastPageImg = ImageIO.read(new File(AppViewController.EMPTY_BUTTON_IMAGE_PATH));
 			nextPageImg = ImageIO.read(new File(AppViewController.NEXT_PAGE_BUTTON_IMAGE_PATH));
 		} catch (Exception ex) {
 			output.println(ex);
@@ -334,6 +346,8 @@ public class AppViewController extends JFrame implements Observer, ActionListene
 		nextPageButton.setBorderPainted(false);
 		lastPageButton.setOpaque(false);
 		nextPageButton.setOpaque(false);
+		//nextPageButton.setRolloverIcon(null);
+		nextPageButton.setPressedIcon(new ImageIcon(AppViewController.NEXT_PAGE_BUTTON_PRESSED_IMAGE_PATH));
 		
 		// Initialize pageIndexLabel
 		pageIndexLabel = new JLabel();
@@ -351,9 +365,9 @@ public class AppViewController extends JFrame implements Observer, ActionListene
 		pageIndexPanel.add(pageIndexLabel);
 		pageIndexPanel.add(nextPageButton);
 		
-		
 		// Repaint content pane for this frame
-		this.getContentPane().repaint();
+		this.repaint();
+		this.setVisible(true);
 	}
 	
 	/**
