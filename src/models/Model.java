@@ -41,7 +41,7 @@ public class Model extends Observable {
 	private String appTitle = "<html><p style=\"text-align:center\">Uncle Tetsu<br>Reservation</p></html>";
 	private String[] pageTitle = new String[] {"PICKUP TIME", "CHOOSE CAKE", "YOUR INFORMATION", "CONFIRMATION"};
 	//private String[] pageTitle = {"PICKUP TIME", "CHOOSE CAKE", "YOUR INFORMATION", "CONFIRMATION"};
-	
+	private String[] pickupTime = {"11:00", "11:20", "11:40", "12:00", "12:20", "12:40", "13:00", "13:20", "13:40", "14:00", "14:20", "14:40", "15:00", "15:20", "15:40", "16:00", "16:20", "16:40", "17:00", "17:20", "17:40", "18:00", "18:20", "18:40", "19:00", "19:20", "19:40"};
 	/**
 	 * Create an instance of this model. The question list for color game will
 	 * be initialized here.
@@ -150,6 +150,10 @@ public class Model extends Observable {
 			break;
 		}
 		return curPageTilte;
+	}
+	
+	public String[] getPickupTimeArray() {
+		return pickupTime;
 	}
 	
 	/**

@@ -19,6 +19,8 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -71,6 +73,7 @@ public class AppViewController extends JFrame implements Observer, ActionListene
 	// JButton
 	private JButton nextPageButton;
 	private JButton lastPageButton;
+	private List<JButton> timeButtonList;
 	
 	// JFont
 	private static final String GILL_SANS_ULTRA_BOLD_FONT = "Gill Sans Ultra Bold";
@@ -310,6 +313,18 @@ public class AppViewController extends JFrame implements Observer, ActionListene
 		titlePanel.add(titleLabel, BorderLayout.CENTER);
 		
 		// Part 2: contentPanel
+		// Initialize all 27 buttons
+		timeButtonList = new ArrayList<JButton>();
+		String[] pickupTimeArray = theModel.getPickupTimeArray();
+		for (int i = 0; i < 27; i++) {
+			JButton button = new JButton();
+			timeButtonList.add(button);
+			contentPanel.add(button);
+			button.setEnabled(true);
+			button.setText(pickupTimeArray[i]);
+			button.setFont(new Font(AppViewController.CALIBRI_FONT, Font.PLAIN, 18));
+			button.setBackground(new Color(AppViewController.BACKGROUND_COLOR));
+		}
 		
 		// Part 3: pageIndexpanel
 		// Initialize last and next buttons
