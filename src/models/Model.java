@@ -25,16 +25,22 @@ import java.util.Random;
 public class Model extends Observable {
 
 	public static final int STATE_UNASSIGNED = -1;
-	public static final int INIT_STATE = 0;
-	//public static final int QUESTION_STATE = 1;
-	//public static final int COLOR_QUESTION_STATE = 2;
+	public static final int PICKUP_TIME_STATE = 0;
+	public static final int CHOOSE_CAKE_STATE = 1;
+	public static final int YOUR_INFORMATION_STATE = 2;
+	public static final int CONFIRMATION_STATE = 3;
 	//public static final int END_STATE = 3;
 
 	private PrintStream output = System.out;
 
 	private int currentState;
 	
-	private String welcomeMsg = "<b>Uncle Tetsu Reservation</b><br><br>Touch anywhere to start";
+	private String appTitle = "Uncle Tetsu Reservation";
+	private String subTitle = "type anywhere to start";
+	private String addressTime = "\"<html><p style=\\\"text-align:center\\\">598 Bay St, Toronto<br>416-591-0555<br>Monday 10am-11pm<br>Tues-Sun 8am-11pm</p></html>\"";
+	private String welcomeMsg = "<html><p style=\\\"text-align:center\\\">Uncle Tetsu<br>Reservation</p></html>";
+	private String[] pageTitle = new String[] {"PICKUP TIME", "CHOOSE CAKE", "YOUR INFORMATION", "CONFIRMATION"};
+	//private String[] pageTitle = {"PICKUP TIME", "CHOOSE CAKE", "YOUR INFORMATION", "CONFIRMATION"};
 	//private String initMsg = "Choose the color of provided items";
 	//private String endMsg = "Congras! You just completed!";
 	
@@ -86,6 +92,24 @@ public class Model extends Observable {
 	public int getCurrentState() {
 		return currentState;
 	}
+	
+	/**
+	 * Return the title on the window
+	 * 
+	 * @return the title
+	 */
+	public String getAppTitle() {
+		return appTitle;
+	}
+	
+	/**
+	 * Return the Touch to start message
+	 * 
+	 * @return the Touch to start message
+	 */
+	public String getTouchToStart() {
+		return subTitle;
+	}
 
 	/**
 	 * Return the welcome message in initial page
@@ -96,6 +120,39 @@ public class Model extends Observable {
 		return welcomeMsg;
 	}
 	
+	/**
+	 * Return the Address and open hour
+	 * 
+	 * @return the Address and open hour
+	 */
+	public String getAddressTime() {
+		return addressTime;
+	}
+	
+	/**
+	 * Return the current page title
+	 * 
+	 * @return the current page title
+	 */
+	
+	public String getPageTitle() {
+		String curPageTilte = null;
+		switch(this.getCurrentState()) {
+		case 0:
+			curPageTilte = pageTitle[0];
+			break;
+		case 1:
+			curPageTilte = pageTitle[1];
+			break;
+		case 2:
+			curPageTilte = pageTitle[2];
+			break;
+		case 3:
+			curPageTilte = pageTitle[3];
+			break;
+		}
+		return curPageTilte;
+	}
 	
 	/**
 	 * Return the initialization message

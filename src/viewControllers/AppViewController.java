@@ -106,7 +106,7 @@ public class AppViewController extends JFrame implements Observer, ActionListene
 		Dimension thisScreen = Toolkit.getDefaultToolkit().getScreenSize();
 		this.setSize((int) thisScreen.getWidth() / 2, (int) thisScreen.getHeight() / 2);
 		// Yi: more work needed here, app title text should be stored in Model.java
-		this.setTitle("Uncle Tetsu Reservation");
+		this.setTitle(theModel.getAppTitle());
 		this.setLocationByPlatform(true);
 		// Center window in the screen
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
@@ -177,7 +177,7 @@ public class AppViewController extends JFrame implements Observer, ActionListene
 		titleLabel.setFont(new Font(AppViewController.GILL_SANS_ULTRA_BOLD_FONT, Font.BOLD, 60));
 		titleLabel.setForeground(new Color(AppViewController.APP_TITLE_LABEL_COLOR));
 		// Yi: more work needed here, html text should be stored in Model.java
-		titleLabel.setText("<html><p style=\"text-align:center\">Uncle Tetsu<br>Reservation</p></html>");
+		titleLabel.setText(theModel.getWelcomeMsg());
 		titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		titleLabel.setOpaque(false);
 		
@@ -186,7 +186,7 @@ public class AppViewController extends JFrame implements Observer, ActionListene
 		subtitleLabel.setFont(new Font(AppViewController.CALIBRI_FONT, Font.PLAIN, 24));
 		subtitleLabel.setForeground(new Color(AppViewController.SUBTITLE_LABEL_COLOR));
 		// Yi: more work needed here, html text should be stored in Model.java
-		subtitleLabel.setText("type anywhere to start");
+		subtitleLabel.setText(theModel.getTouchToStart());
 		subtitleLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		subtitleLabel.setOpaque(false);
 		
@@ -195,8 +195,7 @@ public class AppViewController extends JFrame implements Observer, ActionListene
 		storeInfoLabel.setFont(new Font(AppViewController.HELVETICA_NEUE_FONT, Font.PLAIN, 14));
 		storeInfoLabel.setForeground(new Color(AppViewController.STORE_INFO_LABEL_COLOR));
 		// Yi: more work needed here, html text should be stored in Model.java
-		storeInfoLabel.setText(
-				"<html><p style=\"text-align:center\">598 Bay St, Toronto<br>416-591-0555<br>Monday 10am-11pm<br>Tues-Sun 8am-11pm</p></html>");
+		storeInfoLabel.setText(theModel.getAddressTime());
 		storeInfoLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		storeInfoLabel.setOpaque(false);
 		
@@ -233,7 +232,7 @@ public class AppViewController extends JFrame implements Observer, ActionListene
 			//if the current state is STATE_UNASSIGNED, then set the model to Initial theModel 
 			//System.out.println(theModel.getCurrentState());
 			if(theModel.getCurrentState() == -1) {
-				theModel.setState(Model.INIT_STATE);
+				theModel.setState(Model.PICKUP_TIME_STATE);
 				
 				// test on method initTimeSelectionPanel
 				initTimeSelectionPanel();
@@ -260,7 +259,7 @@ public class AppViewController extends JFrame implements Observer, ActionListene
 			
 		}
 		
-		if(theModel.getCurrentState() == theModel.INIT_STATE) {
+		if(theModel.getCurrentState() == theModel.PICKUP_TIME_STATE) {
 			
 		}
 	}
@@ -305,7 +304,8 @@ public class AppViewController extends JFrame implements Observer, ActionListene
 		titleLabel.setFont(new Font(AppViewController.GILL_SANS_MT_FONT, Font.BOLD, 48));
 		titleLabel.setForeground(new Color(AppViewController.PAGE_TITLE_LABEL_COLOR));
 		// Yi: more work needed here, html text should be stored in Model.java
-		titleLabel.setText("PICKUP TIME");
+		System.out.println(theModel.getCurrentState());
+		titleLabel.setText(theModel.getPageTitle());
 		titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		titleLabel.setOpaque(false);
 		
