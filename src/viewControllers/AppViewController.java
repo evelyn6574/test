@@ -90,6 +90,8 @@ public class AppViewController extends JFrame implements Observer, ActionListene
 	private static final String EMPTY_BUTTON_IMAGE_PATH = "empty_button_image.png";
 	private static final String LAST_PAGE_BUTTON_IMAGE_PATH = "last_page_button_image.png";
 	private static final String NEXT_PAGE_BUTTON_IMAGE_PATH = "next_page_button_image.png";
+	private static final String LAST_PAGE_BUTTON_PRESSED_IMAGE_PATH = "last_page_button_pressed_image.png";
+	private static final String NEXT_PAGE_BUTTON_PRESSED_IMAGE_PATH = "next_page_button_pressed_image.png";
 	private static final String PAGE_INDEX_1_IMAGE = "page_index_1_image.png";
 
 	/**
@@ -167,7 +169,7 @@ public class AppViewController extends JFrame implements Observer, ActionListene
 		
 		// Set panels' preferred sizes to make GUI looks nice.
 		leftPanel.setPreferredSize(new Dimension(150, 384));
-		rightPanel.setPreferredSize(new Dimension(160, 384));
+		rightPanel.setPreferredSize(new Dimension(150, 384));
 		titlePanel.setPreferredSize(new Dimension(500, 150));
 		contentPanel.setPreferredSize(new Dimension(580, 100));
 		pageIndexPanel.setPreferredSize(new Dimension(580, 30));
@@ -321,7 +323,7 @@ public class AppViewController extends JFrame implements Observer, ActionListene
 		BufferedImage lastPageImg = null;
 		BufferedImage nextPageImg = null;
 		try {
-			lastPageImg = ImageIO.read(new File(AppViewController.LAST_PAGE_BUTTON_IMAGE_PATH));
+			lastPageImg = ImageIO.read(new File(AppViewController.EMPTY_BUTTON_IMAGE_PATH));
 			nextPageImg = ImageIO.read(new File(AppViewController.NEXT_PAGE_BUTTON_IMAGE_PATH));
 		} catch (Exception ex) {
 			output.println(ex);
@@ -334,6 +336,8 @@ public class AppViewController extends JFrame implements Observer, ActionListene
 		nextPageButton.setBorderPainted(false);
 		lastPageButton.setOpaque(false);
 		nextPageButton.setOpaque(false);
+		//nextPageButton.setRolloverIcon(null);
+		nextPageButton.setPressedIcon(new ImageIcon(AppViewController.NEXT_PAGE_BUTTON_PRESSED_IMAGE_PATH));
 		
 		// Initialize pageIndexLabel
 		pageIndexLabel = new JLabel();
@@ -351,9 +355,9 @@ public class AppViewController extends JFrame implements Observer, ActionListene
 		pageIndexPanel.add(pageIndexLabel);
 		pageIndexPanel.add(nextPageButton);
 		
-		
 		// Repaint content pane for this frame
-		this.getContentPane().repaint();
+		this.repaint();
+		this.setVisible(true);
 	}
 	
 	/**
