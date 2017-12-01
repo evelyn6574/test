@@ -5,6 +5,7 @@ import models.*;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridLayout;
@@ -14,22 +15,20 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
 import javax.imageio.ImageIO;
-import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
-import javax.swing.border.Border;
 
 /**
  * This class encapsulates a GUI, a component of which is a view-controller
@@ -61,15 +60,37 @@ public class AppViewController extends JFrame implements Observer, ActionListene
 	private JPanel titlePanel;
 	private JPanel contentPanel;
 	private JPanel pageIndexPanel;
+	private JPanel storeInfoPanel;
 
 	// JLabel
 	private JLabel titleLabel;
+	private JLabel subtitleLabel;
 	private JLabel storeInfoLabel;
+	private JLabel pageIndexLabel;
 	
 	// JButton
+	private JButton nextPageButton;
+	private JButton lastPageButton;
+	
+	// JFont
+	private static final String GILL_SANS_ULTRA_BOLD_FONT = "Gill Sans Ultra Bold";
+	private static final String HELVETICA_NEUE_FONT = "Helvetica Neue";
+	private static final String CALIBRI_FONT = "Calibri";
+	private static final String GILL_SANS_MT_FONT = "Gill Sans MT";
+	
+	// Color Integer
+	private static final int BACKGROUND_COLOR = 16442734;
+	private static final int APP_TITLE_LABEL_COLOR = 16230929;
+	private static final int SUBTITLE_LABEL_COLOR = 10384394;
+	private static final int STORE_INFO_LABEL_COLOR = 5592405;
+	private static final int PAGE_TITLE_LABEL_COLOR = 16298787;
 	
 	// Image path
 	private static final String BACKGROUND_IMAGE_PATH = "background_image.png";
+	private static final String EMPTY_BUTTON_IMAGE_PATH = "empty_button_image.png";
+	private static final String LAST_PAGE_BUTTON_IMAGE_PATH = "last_page_button_image.png";
+	private static final String NEXT_PAGE_BUTTON_IMAGE_PATH = "next_page_button_image.png";
+	private static final String PAGE_INDEX_1_IMAGE = "page_index_1_image.png";
 
 	/**
 	 * Creates the view-controller delegate
@@ -84,6 +105,7 @@ public class AppViewController extends JFrame implements Observer, ActionListene
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		Dimension thisScreen = Toolkit.getDefaultToolkit().getScreenSize();
 		this.setSize((int) thisScreen.getWidth() / 2, (int) thisScreen.getHeight() / 2);
+		// Yi: more work needed here, app title text should be stored in Model.java
 		this.setTitle("Uncle Tetsu Reservation");
 		this.setLocationByPlatform(true);
 		// Center window in the screen
@@ -114,66 +136,95 @@ public class AppViewController extends JFrame implements Observer, ActionListene
 		titlePanel = new JPanel();
 		contentPanel = new JPanel();
 		pageIndexPanel = new JPanel();
+		storeInfoPanel = new JPanel();
 		
-		// Set all panels' background color to white
-		/*leftPanel.setBackground(Color.WHITE);
-		middlePanel.setBackground(Color.WHITE);
-		rightPanel.setBackground(Color.WHITE);
-		titlePanel.setBackground(Color.WHITE);
-		contentPanel.setBackground(Color.WHITE);
-		pageIndexPanel.setBackground(Color.WHITE);
-		this.getContentPane().setBackground(Color.WHITE);*/
+		// Set all panels' be not opaque
+		//leftPanel.setBackground(Color.WHITE);
+		//middlePanel.setBackground(Color.WHITE);
+		//rightPanel.setBackground(Color.WHITE);
+		//titlePanel.setBackground(Color.WHITE);
+		//contentPanel.setBackground(Color.GRAY);
+		//pageIndexPanel.setBackground(Color.PINK);
+		//storeInfoPanel.setBackground(Color.PINK);
+		//this.getContentPane().setBackground(Color.WHITE);
 		leftPanel.setOpaque(false);
 		rightPanel.setOpaque(false);
+		middlePanel.setOpaque(false);
+		titlePanel.setOpaque(false);
+		contentPanel.setOpaque(false);
+		pageIndexPanel.setOpaque(false);
+		storeInfoPanel.setOpaque(false);
 		
 		// Set layout for those panels that will contain other components.
 		middlePanel.setLayout(new BorderLayout());
+		rightPanel.setLayout(new BorderLayout());
 		titlePanel.setLayout(new BorderLayout());
 		contentPanel.setLayout(new BorderLayout());
 		backgroundPanel.setLayout(new BorderLayout());
 		pageIndexPanel.setLayout(new BorderLayout());
+		storeInfoPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
 		this.getContentPane().setLayout(new BorderLayout());
 		
 		// Set panels' preferred sizes to make GUI looks nice.
 		leftPanel.setPreferredSize(new Dimension(150, 384));
-		rightPanel.setPreferredSize(new Dimension(150, 384));
-		titlePanel.setPreferredSize(new Dimension(500, 265));
+		rightPanel.setPreferredSize(new Dimension(160, 384));
+		titlePanel.setPreferredSize(new Dimension(500, 150));
 		contentPanel.setPreferredSize(new Dimension(580, 100));
 		pageIndexPanel.setPreferredSize(new Dimension(580, 30));
 
 		// Initialize titleLabel component
 		titleLabel = new JLabel();
-		titleLabel.setFont(new Font("Helvetica", Font.BOLD, 22));
-		titleLabel.setText(theModel.getWelcomeMsg());
+		titleLabel.setFont(new Font(AppViewController.GILL_SANS_ULTRA_BOLD_FONT, Font.BOLD, 60));
+		titleLabel.setForeground(new Color(AppViewController.APP_TITLE_LABEL_COLOR));
+		// Yi: more work needed here, html text should be stored in Model.java
+		titleLabel.setText("<html><p style=\"text-align:center\">Uncle Tetsu<br>Reservation</p></html>");
 		titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		// Add titleLabel on titlePanel with position.
-		titlePanel.add(titleLabel, BorderLayout.CENTER);
+		titleLabel.setOpaque(false);
+		
+		// Initialize subtitleLabel component
+		subtitleLabel = new JLabel();
+		subtitleLabel.setFont(new Font(AppViewController.CALIBRI_FONT, Font.PLAIN, 24));
+		subtitleLabel.setForeground(new Color(AppViewController.SUBTITLE_LABEL_COLOR));
+		// Yi: more work needed here, html text should be stored in Model.java
+		subtitleLabel.setText("type anywhere to start");
+		subtitleLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		subtitleLabel.setOpaque(false);
+		
+		// Initialize storeInfoLabel component
+		storeInfoLabel = new JLabel();
+		storeInfoLabel.setFont(new Font(AppViewController.HELVETICA_NEUE_FONT, Font.PLAIN, 14));
+		storeInfoLabel.setForeground(new Color(AppViewController.STORE_INFO_LABEL_COLOR));
+		// Yi: more work needed here, html text should be stored in Model.java
+		storeInfoLabel.setText(
+				"<html><p style=\"text-align:center\">598 Bay St, Toronto<br>416-591-0555<br>Monday 10am-11pm<br>Tues-Sun 8am-11pm</p></html>");
+		storeInfoLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		storeInfoLabel.setOpaque(false);
+		
+		// Add labels on panels with position.
+		contentPanel.add(titleLabel, BorderLayout.NORTH);
+		contentPanel.add(subtitleLabel, BorderLayout.CENTER);
+		storeInfoPanel.add(storeInfoLabel);
+		rightPanel.add(storeInfoPanel, BorderLayout.SOUTH);
 		
 		// Add three panels on middlePanel with positions
 		middlePanel.add(titlePanel, BorderLayout.NORTH);
 		middlePanel.add(contentPanel, BorderLayout.CENTER);
 		middlePanel.add(pageIndexPanel, BorderLayout.PAGE_END);
 		
+		// Add three panels on backgroundPanel with positions
 		backgroundPanel.add(leftPanel, BorderLayout.WEST);
+		backgroundPanel.add(middlePanel,BorderLayout.CENTER);
 		backgroundPanel.add(rightPanel, BorderLayout.EAST);
 
-		// Add three main panels on content pane with positions
-		/*this.getContentPane().add(leftPanel, BorderLayout.WEST);
-		this.getContentPane().add(rightPanel, BorderLayout.EAST);
-		this.getContentPane().add(middlePanel, BorderLayout.CENTER);*/
+		// Add backgroundPanel on this frame content pane with positions
 		this.getContentPane().add(backgroundPanel, BorderLayout.CENTER);
-
-		this.setVisible(true);
-
-		// this method asks the frame layout manager to size the frame so that
-		// all its contents are at or above their preferred sizes
 		
 		//add MouseLitsener
 		backgroundPanel.addMouseListener(new welcomePanelListener());
 		
 		this.pack();
-		// make this component visible (do not assume that it will be visible by
-		// default)
+		
+		// make this component visible
 		this.setVisible(true);
 	}
 	
@@ -183,6 +234,9 @@ public class AppViewController extends JFrame implements Observer, ActionListene
 			//System.out.println(theModel.getCurrentState());
 			if(theModel.getCurrentState() == -1) {
 				theModel.setState(Model.INIT_STATE);
+				
+				// test on method initTimeSelectionPanel
+				initTimeSelectionPanel();
 			}
 			
 			
@@ -220,7 +274,85 @@ public class AppViewController extends JFrame implements Observer, ActionListene
 	/**
 	 * Build the initial question page, which is the next page of welcome page.
 	 */
-	public void initQuestionPanel() {
+	public void initTimeSelectionPanel() {
+		// Remove components from last page
+		contentPanel.removeAll();
+		
+		// Set layout for those panels that will contain other components.
+		contentPanel.setLayout(new GridLayout(9, 3));
+		pageIndexPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
+		
+		// Set all panels' be not opaque
+		//leftPanel.setBackground(Color.WHITE);
+		//middlePanel.setBackground(Color.WHITE);
+		//rightPanel.setBackground(Color.WHITE);
+		//titlePanel.setBackground(Color.WHITE);
+		//contentPanel.setBackground(Color.GRAY);
+		//pageIndexPanel.setBackground(Color.PINK);
+		//storeInfoPanel.setBackground(Color.PINK);
+		//this.getContentPane().setBackground(Color.WHITE);
+		/*titlePanel.setOpaque(true);
+		contentPanel.setOpaque(true);
+		pageIndexPanel.setOpaque(true);*/
+		
+		// Set panels' preferred sizes to make GUI looks nice.
+		titlePanel.setPreferredSize(new Dimension(580, 120));
+		contentPanel.setPreferredSize(new Dimension(580, 50));
+		pageIndexPanel.setPreferredSize(new Dimension(580, 80));
+		
+		// Part 1: titlePanel
+		// Modify titleLabel component
+		titleLabel.setFont(new Font(AppViewController.GILL_SANS_MT_FONT, Font.BOLD, 48));
+		titleLabel.setForeground(new Color(AppViewController.PAGE_TITLE_LABEL_COLOR));
+		// Yi: more work needed here, html text should be stored in Model.java
+		titleLabel.setText("PICKUP TIME");
+		titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		titleLabel.setOpaque(false);
+		
+		// Add labels on panels with position.
+		titlePanel.add(titleLabel, BorderLayout.CENTER);
+		
+		// Part 2: contentPanel
+		
+		// Part 3: pageIndexpanel
+		// Initialize last and next buttons
+		lastPageButton = new JButton();
+		nextPageButton = new JButton();
+		BufferedImage lastPageImg = null;
+		BufferedImage nextPageImg = null;
+		try {
+			lastPageImg = ImageIO.read(new File(AppViewController.LAST_PAGE_BUTTON_IMAGE_PATH));
+			nextPageImg = ImageIO.read(new File(AppViewController.NEXT_PAGE_BUTTON_IMAGE_PATH));
+		} catch (Exception ex) {
+			output.println(ex);
+		}
+		lastPageButton.setIcon(new ImageIcon(lastPageImg));
+		nextPageButton.setIcon(new ImageIcon(nextPageImg));
+		lastPageButton.setPreferredSize(new Dimension(lastPageImg.getWidth(), lastPageImg.getHeight()));
+		nextPageButton.setPreferredSize(new Dimension(nextPageImg.getWidth(), nextPageImg.getHeight()));
+		lastPageButton.setBorderPainted(false);
+		nextPageButton.setBorderPainted(false);
+		lastPageButton.setOpaque(false);
+		nextPageButton.setOpaque(false);
+		
+		// Initialize pageIndexLabel
+		pageIndexLabel = new JLabel();
+		BufferedImage pageIndexImg = null;
+		try {
+			pageIndexImg = ImageIO.read(new File(AppViewController.PAGE_INDEX_1_IMAGE));
+		} catch (Exception ex) {
+			output.println(ex);
+		}
+		pageIndexLabel.setIcon(new ImageIcon(pageIndexImg));
+		pageIndexLabel.setOpaque(false);
+		
+		// Add buttons and label on panels with position.
+		pageIndexPanel.add(lastPageButton);
+		pageIndexPanel.add(pageIndexLabel);
+		pageIndexPanel.add(nextPageButton);
+		
+		
+		// Repaint content pane for this frame
 		this.getContentPane().repaint();
 	}
 	
