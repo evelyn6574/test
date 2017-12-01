@@ -81,7 +81,7 @@ public class AppViewController extends JFrame implements Observer, ActionListene
 	// Color Integer
 	private static final int BACKGROUND_COLOR = 16442734;
 	private static final int APP_TITLE_LABEL_COLOR = 16230929;
-	private static final int SUBAPP_TITLE_LABEL_COLOR = 10384394;
+	private static final int SUBTITLE_LABEL_COLOR = 10384394;
 	private static final int STORE_INFO_LABEL_COLOR = 5592405;
 	private static final int PAGE_TITLE_LABEL_COLOR = 16298787;
 	
@@ -184,7 +184,7 @@ public class AppViewController extends JFrame implements Observer, ActionListene
 		// Initialize subtitleLabel component
 		subtitleLabel = new JLabel();
 		subtitleLabel.setFont(new Font(AppViewController.CALIBRI_FONT, Font.PLAIN, 24));
-		subtitleLabel.setForeground(new Color(AppViewController.SUBAPP_TITLE_LABEL_COLOR));
+		subtitleLabel.setForeground(new Color(AppViewController.SUBTITLE_LABEL_COLOR));
 		// Yi: more work needed here, html text should be stored in Model.java
 		subtitleLabel.setText("type anywhere to start");
 		subtitleLabel.setHorizontalAlignment(SwingConstants.CENTER);
