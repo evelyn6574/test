@@ -107,8 +107,7 @@ public class AppViewController extends JFrame implements Observer, ActionListene
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		Dimension thisScreen = Toolkit.getDefaultToolkit().getScreenSize();
 		this.setSize((int) thisScreen.getWidth() / 2, (int) thisScreen.getHeight() / 2);
-		// Yi: more work needed here, app title text should be stored in Model.java
-		this.setTitle(theModel.getAppTitle());
+		this.setTitle(theModel.getWindowTitle());
 		this.setLocationByPlatform(true);
 		// Center window in the screen
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
@@ -178,8 +177,7 @@ public class AppViewController extends JFrame implements Observer, ActionListene
 		titleLabel = new JLabel();
 		titleLabel.setFont(new Font(AppViewController.GILL_SANS_ULTRA_BOLD_FONT, Font.BOLD, 60));
 		titleLabel.setForeground(new Color(AppViewController.APP_TITLE_LABEL_COLOR));
-		// Yi: more work needed here, html text should be stored in Model.java
-		titleLabel.setText(theModel.getWelcomeMsg());
+		titleLabel.setText(theModel.getAppTitle());
 		titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		titleLabel.setOpaque(false);
 		
@@ -187,8 +185,7 @@ public class AppViewController extends JFrame implements Observer, ActionListene
 		subtitleLabel = new JLabel();
 		subtitleLabel.setFont(new Font(AppViewController.CALIBRI_FONT, Font.PLAIN, 24));
 		subtitleLabel.setForeground(new Color(AppViewController.SUBTITLE_LABEL_COLOR));
-		// Yi: more work needed here, html text should be stored in Model.java
-		subtitleLabel.setText(theModel.getTouchToStart());
+		subtitleLabel.setText(theModel.getSubtitle());
 		subtitleLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		subtitleLabel.setOpaque(false);
 		
@@ -196,8 +193,7 @@ public class AppViewController extends JFrame implements Observer, ActionListene
 		storeInfoLabel = new JLabel();
 		storeInfoLabel.setFont(new Font(AppViewController.HELVETICA_NEUE_FONT, Font.PLAIN, 14));
 		storeInfoLabel.setForeground(new Color(AppViewController.STORE_INFO_LABEL_COLOR));
-		// Yi: more work needed here, html text should be stored in Model.java
-		storeInfoLabel.setText(theModel.getAddressTime());
+		storeInfoLabel.setText(theModel.getStoreInfo());
 		storeInfoLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		storeInfoLabel.setOpaque(false);
 		
@@ -305,7 +301,6 @@ public class AppViewController extends JFrame implements Observer, ActionListene
 		// Modify titleLabel component
 		titleLabel.setFont(new Font(AppViewController.GILL_SANS_MT_FONT, Font.BOLD, 48));
 		titleLabel.setForeground(new Color(AppViewController.PAGE_TITLE_LABEL_COLOR));
-		// Yi: more work needed here, html text should be stored in Model.java
 		System.out.println(theModel.getCurrentState());
 		titleLabel.setText(theModel.getPageTitle());
 		titleLabel.setHorizontalAlignment(SwingConstants.CENTER);

@@ -29,20 +29,18 @@ public class Model extends Observable {
 	public static final int CHOOSE_CAKE_STATE = 1;
 	public static final int YOUR_INFORMATION_STATE = 2;
 	public static final int CONFIRMATION_STATE = 3;
-	//public static final int END_STATE = 3;
+	public static final int ORDER_NUM_END_STATE = 4;
 
 	private PrintStream output = System.out;
 
 	private int currentState;
 	
-	private String appTitle = "Uncle Tetsu Reservation";
-	private String subTitle = "type anywhere to start";
-	private String addressTime = "\"<html><p style=\\\"text-align:center\\\">598 Bay St, Toronto<br>416-591-0555<br>Monday 10am-11pm<br>Tues-Sun 8am-11pm</p></html>\"";
-	private String welcomeMsg = "<html><p style=\\\"text-align:center\\\">Uncle Tetsu<br>Reservation</p></html>";
+	private String windowTitle = "Uncle Tetsu Reservation";
+	private String subtitle = "type anywhere to start";
+	private String storeInfo = "<html><p style=\"text-align:center\">598 Bay St, Toronto<br>416-591-0555<br>Monday 10am-11pm<br>Tues-Sun 8am-11pm</p></html>";
+	private String appTitle = "<html><p style=\"text-align:center\">Uncle Tetsu<br>Reservation</p></html>";
 	private String[] pageTitle = new String[] {"PICKUP TIME", "CHOOSE CAKE", "YOUR INFORMATION", "CONFIRMATION"};
 	//private String[] pageTitle = {"PICKUP TIME", "CHOOSE CAKE", "YOUR INFORMATION", "CONFIRMATION"};
-	//private String initMsg = "Choose the color of provided items";
-	//private String endMsg = "Congras! You just completed!";
 	
 	/**
 	 * Create an instance of this model. The question list for color game will
@@ -98,8 +96,8 @@ public class Model extends Observable {
 	 * 
 	 * @return the title
 	 */
-	public String getAppTitle() {
-		return appTitle;
+	public String getWindowTitle() {
+		return windowTitle;
 	}
 	
 	/**
@@ -107,8 +105,8 @@ public class Model extends Observable {
 	 * 
 	 * @return the Touch to start message
 	 */
-	public String getTouchToStart() {
-		return subTitle;
+	public String getSubtitle() {
+		return subtitle;
 	}
 
 	/**
@@ -116,8 +114,8 @@ public class Model extends Observable {
 	 * 
 	 * @return the welcome message
 	 */
-	public String getWelcomeMsg() {
-		return welcomeMsg;
+	public String getAppTitle() {
+		return appTitle;
 	}
 	
 	/**
@@ -125,8 +123,8 @@ public class Model extends Observable {
 	 * 
 	 * @return the Address and open hour
 	 */
-	public String getAddressTime() {
-		return addressTime;
+	public String getStoreInfo() {
+		return storeInfo;
 	}
 	
 	/**
